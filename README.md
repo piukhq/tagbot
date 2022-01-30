@@ -8,9 +8,9 @@ We use this as part of our image promotion workflow between our Staging and Prod
 
 ```shell
 tagbot \
-    --username example \
+    --username caprica \
     --password password \
-    --source example.azurecr.io/battlestar:apollo \
+    --source caprica.azurecr.io/battlestar:apollo \
     --tag starbuck
 ```
 
@@ -18,4 +18,4 @@ This would add an additional tag of `starbuck` to `example.azurecr.io/battlestar
 
 # TODO
 
-* Rewrite in Go
+* Convert into a GitHub Action
