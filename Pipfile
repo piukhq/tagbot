@@ -6,13 +6,12 @@ verify_ssl = true
 [dev-packages]
 flake8 = "*"
 isort = "*"
-black = "==21.9b0"
 ptpython = "*"
-regex = "<2021.10.8"
+black = "*"
 
 [packages]
 requests = "*"
 click = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.11"

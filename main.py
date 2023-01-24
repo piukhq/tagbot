@@ -18,18 +18,20 @@ def tag(username, password, source, tag):
 
     source_image = requests.get(
         f"https://{s[0]}/v2/{s[1]}/manifests/{s[2]}",
-        headers={"Accept": "application/vnd.docker.distribution.manifest.v2+json"},
+        headers={
+            "Accept": "application/vnd.docker.distribution.manifest.v2+json, application/vnd.oci.image.index.v1+json"
+        },
         auth=(username, password),
     )
-
     source_image.raise_for_status()
 
-    requests.put(
+    dest_image = requests.put(
         f"https://{s[0]}/v2/{s[1]}/manifests/{tag}",
-        headers={"Content-Type": "application/vnd.docker.distribution.manifest.v2+json"},
+        headers={"Content-Type": source_image.headers["Content-Type"]},
         auth=(username, password),
         data=(source_image.text),
-    ).raise_for_status()
+    )
+    dest_image.raise_for_status()
 
 
 if __name__ == "__main__":
