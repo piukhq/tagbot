@@ -11,10 +11,10 @@ tagbot \
     --username example \
     --password password \
     --source example.azurecr.io/debian:latest \
-    --tag v1.0.0
+    --tags v1.0.0,1.0.0
 ```
 
-This would add an additional tag of `v1.0.0` to `example.azurecr.io/debian:latest`. The container image can then be pulled with either `example.azurecr.io/debian:latest`, or `example.azurecr.io/debian:v1.0.0`
+This would add an additional tag of `v1.0.0` to `example.azurecr.io/debian:latest`. The container image can then be pulled with either `example.azurecr.io/debian:latest`, `example.azurecr.io/debian:v1.0.0`, or `example.azurecr.io/debian:1.0.0`
 
 ### GitHub Actions Usage
 
@@ -27,19 +27,17 @@ on:
 
 jobs:
   release:
-    name: release
+    uses: binkhq/tagbot/.github/workflows/retag.yaml@master
+    with:
+      username: example
+      source: example.azurecr.io/${{ github.event.repository.name }}:${{ github.ref_name }}
+      tags: ${{ matrix.environment }}-v1.0.0,${{ matrix.environment }}
+      envirnment:  ${{ matrix.environment }}
+    secrets:
+      password: ${{ secrets.ACR_BINKCORE_PASSWORD }}
     strategy:
       matrix:
         environment: [staging, production]
-    environment:
-      name: ${{ matrix.environment }}
-    uses: binkhq/tagbot/.github/workflows/retag.yaml@master
-      with:
-        username: example
-        source: example.azurecr.io/${{ github.event.repository.name }}:${{ github.ref_name }}
-        tag: v1.0.0
-      secrets:
-        password: ${{ secrets.ACR_PASSWORD }}
 ```
 
 ## FAQ
