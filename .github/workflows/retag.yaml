@@ -33,8 +33,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install container-tagbot
-      - run: tagbot \
-          --username="${{ inputs.username }}" \
-          --password="${{ secrets.password }}" \
-          --source="${{ inputs.source }}" \
-          --tags="${{ inputs.tags }}"
+      - run: tagbot --username="${{ inputs.username }}" --password="${{ secrets.password }}" --source="${{ inputs.source }}" --tags="${{ inputs.tags }}"
