@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "container-tagbot"
+version = "0.0.0"
+description = "Retags a Container in a Container Registry without the need for Docker"
+authors = ["Chris Pressland <mail@cpressland.io>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.scripts]
+tagbot = "container_tagbot:cli"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+click = "^8.1.7"
+loguru = "^0.7.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.1"
+ruff = "^0.1.12"
+mypy = "^1.8.0"
+types-requests = "^2.31.0.20240106"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+select = ["ALL"]
+ignore = ["D203", "D213"]
+line-length = 120
+
+[tool.poetry-dynamic-versioning]
+enable = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"

@@ -1,0 +1,35 @@
+name: retag
+
+on:
+  workflow_call:
+    inputs:
+      username:
+        description: "The username to use for the container registry"
+        required: true
+        type: string
+      source:
+        description: "The image to retag, example: example.azurecr.io/ubuntu:latest"
+        required: true
+        type: string
+      tag:
+        description: "The new tag to apply to the image, example: v1.0.0"
+        required: true
+        type: string
+    secrets:
+      password:
+        description: "The password to use for the container registry"
+        required: true
+
+jobs:
+  retag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install container-tagbot
+      - run: tagbot \
+          --username ${{ github.event.inputs.username }} \
+          --password ${{ secrets.password }} \
+          --source ${{ github.event.source.image }} \
+          --tag ${{ github.event.inputs.tag }}
