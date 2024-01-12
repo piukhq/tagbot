@@ -11,8 +11,8 @@ on:
         description: "The image to retag, example: example.azurecr.io/ubuntu:latest"
         required: true
         type: string
-      tag:
-        description: "The new tag to apply to the image, example: v1.0.0"
+      tags:
+        description: "The new tags to apply to the image, example: 'prod-v1.0.0,staging-v1.0.0'"
         required: true
         type: string
       environment:
@@ -27,14 +27,14 @@ on:
 jobs:
   retag:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
+    environment: ${{ inputs.environment }}
     steps:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - run: pip install container-tagbot
       - run: tagbot \
-          --username ${{ github.event.inputs.username }} \
+          --username ${{ inputs.username }} \
           --password ${{ secrets.password }} \
-          --source ${{ github.event.source.image }} \
-          --tag ${{ github.event.inputs.tag }}
+          --source ${{ inputs.source }} \
+          --tags ${{ inputs.tags }}
